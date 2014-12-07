@@ -28,6 +28,9 @@ public class WaveActor extends EcgActor {
     private Color neonColor = DEFAULT_NEON_COLOR;
 
     private NeonTexturer neonTexturer;
+    private NeonTexturer partnerNeonTexturer;
+
+    private boolean hasPartner;
 
     public WaveActor() {
         this.speed = new Vector2(DEFAULT_SPEED.x, 0);
@@ -41,6 +44,8 @@ public class WaveActor extends EcgActor {
         this.lastPosition = position.cpy();
         this.neonTexturer = new NeonTexturer(stageWidth, stageHeight);
         this.neonTexturer.setParameters(centerWidth, centerColor, neonWidth, neonColor);
+        this.partnerNeonTexturer = new NeonTexturer(stageWidth, stageHeight);
+        this.partnerNeonTexturer.setParameters(centerWidth-1, centerColor, neonWidth/2, ColorUtils.rgba256(255, 49, 230, 250));
     }
 
     @Override
@@ -62,6 +67,8 @@ public class WaveActor extends EcgActor {
         if(horizontal) tempSpeed.y = 0;
         position.add(tempSpeed.scl(deltaTime));
         neonTexturer.drawNewSegment(position, lastPosition);
+        if(hasPartner)
+            partnerNeonTexturer.drawNewSegment(mirrorPoint(position), mirrorPoint(lastPosition));
     }
 
     @Override
@@ -71,6 +78,11 @@ public class WaveActor extends EcgActor {
         Texture texture = neonTexturer.getTexture();
         Vector2 position = neonTexturer.getTexturePosition();
         batch.draw(texture, scrolledX(position.x), position.y);
+        if(hasPartner) {
+            Texture texture2 = partnerNeonTexturer.getTexture();
+            Vector2 position2 = partnerNeonTexturer.getTexturePosition();
+            batch.draw(texture2, scrolledX(position2.x), position2.y);
+        }
     }
 
     public Vector2 getSpeed() {
@@ -116,26 +128,42 @@ public class WaveActor extends EcgActor {
         this.horizontal = horizontal;
     }
 
+    public void setHasPartner(boolean hasPartner) {
+        this.hasPartner = hasPartner;
+    }
+
     public void clearTexture() {
         neonTexturer.clearPixmap();
+        if(hasPartner) {
+            partnerNeonTexturer.clearPixmap();
+        }
+    }
+
+    public boolean isColliding(Rectangle rect) {
+        return isColliding(rect, false);
+    }
+
+    public boolean isColliding(Rectangle rect, boolean ignorePartner) {
+        return isCollidingImpl(position, lastPosition, rect) ||
+                (!ignorePartner && isCollidingImpl(mirrorPoint(position), mirrorPoint(lastPosition), rect));
     }
 
     @SuppressWarnings("SuspiciousNameCombination")
-    public boolean isColliding(Rectangle rect) {
+    private boolean isCollidingImpl(Vector2 pos, Vector2 previousPos, Rectangle rect) {
         Vector2 center = new Vector2();
         rect.getCenter(center);
         float w = rect.getWidth();
         float h = rect.getHeight();
-        if(center.dst2(position) > w * w / 4 + h * h / 4)
+        if(center.dst2(pos) > w * w / 4 + h * h / 4)
             return false;
 
-        Vector2 delta = position.cpy().sub(lastPosition).scl(0.75f);
+        Vector2 delta = pos.cpy().sub(previousPos).scl(0.75f);
         Vector2 normal = new Vector2(-delta.y, delta.x);
-        Vector2 nextPosition = position.cpy().add(delta);
+        Vector2 nextPosition = pos.cpy().add(delta);
 
-        return intersectSegmentRectangle(position.cpy().sub(delta), nextPosition.cpy().add(delta), rect) ||
-                intersectSegmentRectangle(position.cpy().add(normal), nextPosition.cpy().add(normal), rect) ||
-                intersectSegmentRectangle(position.cpy().sub(normal), nextPosition.cpy().sub(normal), rect);
+        return intersectSegmentRectangle(pos.cpy().sub(delta), nextPosition.cpy().add(delta), rect) ||
+                intersectSegmentRectangle(pos.cpy().add(normal), nextPosition.cpy().add(normal), rect) ||
+                intersectSegmentRectangle(pos.cpy().sub(normal), nextPosition.cpy().sub(normal), rect);
     }
 
     private boolean intersectSegmentRectangle(Vector2 u, Vector2 v, Rectangle rectangle) {
@@ -156,4 +184,7 @@ public class WaveActor extends EcgActor {
                 p.y >= rectangle.y && p.y <= rectangle.y + rectangle.height;
     }
 
+    private Vector2 mirrorPoint(Vector2 point) {
+        return new Vector2(point.x, getStage().getHeight()-point.y);
+    }
 }

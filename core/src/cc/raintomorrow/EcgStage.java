@@ -5,8 +5,7 @@ import cc.raintomorrow.cutscene.RunnableCutscene;
 import cc.raintomorrow.cutscene.TextCutscene;
 import cc.raintomorrow.graphics.Animator;
 import cc.raintomorrow.graphics.AnimatorBuilder;
-import cc.raintomorrow.phase.ExamPhase;
-import cc.raintomorrow.phase.SchoolPhase;
+import cc.raintomorrow.phase.*;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class EcgStage extends Stage {
-    static private float DEFAULT_BUMPER_RANGE = 360f;
-    static private float DEFAULT_HP_CONSUMPTION = 75;
+    static public float DEFAULT_BUMPER_RANGE = 360f;
+    static public float DEFAULT_HP_CONSUMPTION = 75;
 
     protected float scrollX = 0;
 
@@ -120,15 +119,13 @@ public class EcgStage extends Stage {
         this.cutsceneManager = new CutsceneManager(this);
 
         this.phases = new Phase[] {
+                new MarriagePhase(this),
                 new SchoolPhase(this),
                 new ExamPhase(this),
-                new SchoolPhase(this),
-                new SchoolPhase(this),
-                new SchoolPhase(this),
-                new SchoolPhase(this),
-                new SchoolPhase(this),
-                new SchoolPhase(this),
-                new SchoolPhase(this),
+                new BullyingPhase(this),
+                new FirstLovePhase(this),
+                new RejectionPhase(this),
+                new MarriagePhase(this),
         };
         nextPhase();
     }
@@ -147,13 +144,28 @@ public class EcgStage extends Stage {
         return scrollX;
     }
 
+    public WaveActor getWave() {
+        return wave;
+    }
+
+    public BumperActor getTopBumper() {
+        return topBumper;
+    }
+
+    public BumperActor getBottomBumper() {
+        return bottomBumper;
+    }
+
     public void reset() {
         wave.setPosition(new Vector2(350+scrollX, getHeight() / 2));
         wave.clearTexture();
         topBumper.activate();
         bottomBumper.inactivate();
+    }
+
+    public void setHpConsumption(float amount) {
         hpUpdaters.clear();
-        hpUpdaters.add(new HpUpdater(-DEFAULT_HP_CONSUMPTION));
+        hpUpdaters.add(new HpUpdater(-amount));
     }
 
     public void switchPhase(final Phase phase) {

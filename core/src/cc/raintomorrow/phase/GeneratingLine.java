@@ -65,7 +65,7 @@ public class GeneratingLine {
     }
 
     public BlockerActor tryToGenerate() {
-        float prob = MathUtils.clamp((fromLastTime * intensityFactor - intervalMin) / (intervalMax - intervalMin), 0, 1);
+        float prob = Generating.unlerp(fromLastTime * intensityFactor, intervalMin, intervalMax);
         if(MathUtils.random() < prob) {
             fromLastTime = 0;
             float blockerX = stage.getScrollX()+stage.getWidth();

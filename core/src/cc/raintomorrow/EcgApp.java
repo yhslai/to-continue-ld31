@@ -40,6 +40,7 @@ public class EcgApp extends ApplicationAdapter {
         manager.load("img/bumper.png", Texture.class);
         manager.load("img/bonus.png", Texture.class);
         manager.load("img/eyelid-mask.png", Texture.class);
+        manager.load("img/bully.png", Texture.class);
         manager.load("img/background.png", Texture.class);
         manager.load("img/cutscene-background.png", Texture.class);
         manager.load("img/pack.atlas", TextureAtlas.class);

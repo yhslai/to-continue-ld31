@@ -36,8 +36,8 @@ public class BlockerActor extends EcgActor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        float drawWidth = getWidth() + (blockerPatch.getLeftWidth() + blockerPatch.getRightWidth());
-        float drawHeight = getHeight() + (blockerPatch.getTopHeight() + blockerPatch.getBottomHeight());
+        float drawWidth = getWidth() + (blockerPatch.getLeftWidth() + blockerPatch.getRightWidth())/2;
+        float drawHeight = getHeight() + (blockerPatch.getTopHeight() + blockerPatch.getBottomHeight())/2;
         blockerPatch.draw(batch, scrolledX(getX())-drawWidth/2, getY()-drawHeight/2,
                 drawWidth, drawHeight);
         if(scrolledX(getX())+drawWidth < 0) {
@@ -70,6 +70,10 @@ public class BlockerActor extends EcgActor {
             remove();
         }
         else {
+            if(hpChange > 100)
+                Sounds.bonus.play();
+            else
+                Sounds.beat.play();
             getStage().addHpUpdater(new HpUpdater(hpChange/0.15f, 0.15f));
             remove();
         }

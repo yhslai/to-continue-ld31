@@ -67,7 +67,7 @@ public class BumperActor extends EcgActor {
     public void act(float deltaTime) {
         super.act(deltaTime);
 
-        if(wave.isColliding(toRectangle()) && active) {
+        if(wave.isColliding(toRectangle(), true) && active) {
             bump();
         }
 
@@ -85,12 +85,11 @@ public class BumperActor extends EcgActor {
 
     private Rectangle toRectangle() {
         //noinspection SuspiciousNameCombination
-        return new Rectangle(0, getY(), 100000000, 1);
+        return new Rectangle(0, getY(), 100000000, 3);
     }
 
     private void bump() {
         active = false;
-        another.active = true;
         bumping = true;
         justBumped = true;
         Timer.schedule(new Timer.Task() {
@@ -100,6 +99,7 @@ public class BumperActor extends EcgActor {
                     Sounds.beat.play();
                     justBumped = false;
                 }
+                another.active = true;
             }
         }, 0.05f);
         previousBumpDirection = wave.getDirection();
@@ -114,7 +114,7 @@ public class BumperActor extends EcgActor {
         Sounds.beat.stop();
         bonusStars.add(wave.getPosition().cpy());
 
-        getStage().addHpUpdater(new HpUpdater(getHpRegen() / 0.4f, 0.4f));
+        getStage().addHpUpdater(new HpUpdater(getHpRegen() / 2 / 0.4f, 0.4f));
     }
 
     @Override
