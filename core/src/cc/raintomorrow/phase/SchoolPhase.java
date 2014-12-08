@@ -19,6 +19,9 @@ public class SchoolPhase extends Phase {
                 new TextCutscene("\"The day I left school.\nEverything went well.\""),
         };
 
+        this.initHp = 550;
+        this.hpConsumption = 60;
+
         GeneratingLine topOut = new GeneratingLine(stage);
         topOut.setInterval(2f, 4f);
         topOut.setY(480, 500);
