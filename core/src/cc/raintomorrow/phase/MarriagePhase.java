@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class MarriagePhase extends Phase {
-    private int subPhase = 2;
+    private int subPhase = 0;
     private int subPhaseCount = 4;
     private GeneratingLine [] lines0;
 

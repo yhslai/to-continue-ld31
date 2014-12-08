@@ -52,6 +52,8 @@ public class EcgStage extends Stage {
     private Texture background;
     private CutsceneManager cutsceneManager;
 
+    private float totalTime = 0;
+
     public EcgStage(Viewport viewport, Batch batch) {
         super(viewport, batch);
 
@@ -316,6 +318,8 @@ public class EcgStage extends Stage {
                     Sounds.warn.play();
                 }
             }
+
+            totalTime += deltaTime;
         }
 
         if(eyesOpening)
@@ -412,7 +416,9 @@ public class EcgStage extends Stage {
                                                                     public void run() {
                                                                         cutsceneManager = new CutsceneManager(EcgStage.this, false,
                                                                                 new TextCutscene("\"(cough cough)\"", Color.BLACK),
-                                                                                new TextCutscene("\"Haha...\nWill the wedding be postponed?\"", Color.BLACK));
+                                                                                new TextCutscene("\"Haha...\nWill the wedding be postponed?\"", Color.BLACK),
+                                                                                new TextCutscene("You were in coma for:\n\n"+
+                                                                                        Integer.toString((int)totalTime/60)+":"+Integer.toString((int)totalTime%60), Color.BLACK, true, 2));
                                                                     }
                                                                 });
                                                             }

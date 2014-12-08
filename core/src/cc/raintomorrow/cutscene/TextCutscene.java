@@ -19,6 +19,14 @@ public class TextCutscene extends Cutscene {
 
     private BitmapFont mainFont;
     private BitmapFont subFont;
+    private boolean forever;
+    private float delay;
+
+    public TextCutscene(String mainText, Color color, boolean forever, float delay) {
+        this(mainText, color);
+        this.forever = forever;
+        this.delay = delay;
+    }
 
     public TextCutscene(String mainText, Color color) {
         this.mainText = mainText;
@@ -44,10 +52,12 @@ public class TextCutscene extends Cutscene {
 
     @Override
     public void pressAction() {
-        if(mainTextEnded())
-            ended = true;
-        else
-            stateTime = mainTextDuration();
+        if(!forever) {
+            if (mainTextEnded())
+                ended = true;
+            else
+                stateTime = mainTextDuration();
+        }
     }
 
     @Override
@@ -77,7 +87,8 @@ public class TextCutscene extends Cutscene {
     }
 
     private String mainTextToShow() {
-        float duration = stateTime;
+        float duration = stateTime - delay;
+        if(duration <= 0) return "";
         float oneCharDuration = 1 / charPerSec;
         for(int i = 0; i < mainText.length(); i++) {
             if(mainText.charAt(i) == ".".charAt(0)) duration -= oneCharDuration * 3;
