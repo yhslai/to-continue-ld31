@@ -6,8 +6,11 @@ import cc.raintomorrow.graphics.Direction;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
@@ -24,12 +27,9 @@ public class BumperActor extends EcgActor {
     private Animator inactiveAnimator;
     private Animator activeAnimator;
     private Animator bumpingAnimator;
-    private Texture bonusTexture;
 
     private WaveActor wave;
     private BumperActor another;
-
-    private ArrayList<Vector2> bonusStars = new ArrayList<Vector2>();
 
     public BumperActor(float y, WaveActor wave) {
         this.wave = wave;
@@ -40,7 +40,6 @@ public class BumperActor extends EcgActor {
         this.inactiveAnimator = animBuilder.buildAnimator(0.1f, 0, 1, Animation.PlayMode.LOOP);
         this.activeAnimator = animBuilder.buildAnimator(0.1f, 1, 2, Animation.PlayMode.LOOP);
         this.bumpingAnimator = animBuilder.buildAnimator(0.05f, 2, 6, Animation.PlayMode.NORMAL);
-        this.bonusTexture = Ecg.app.getAsset("img/bonus.png");
     }
 
     public void setAnother(BumperActor another) {
@@ -112,7 +111,17 @@ public class BumperActor extends EcgActor {
         justBumped = false;
         Sounds.bonus.play();
         Sounds.beat.stop();
-        bonusStars.add(wave.getPosition().cpy());
+        final BonusActor bonus = new BonusActor();
+        bonus.setPosition(wave.getPosition().x - getStage().getScrollX(), wave.getPosition().y);
+        bonus.addAction(Actions.sequence(Actions.moveTo(30, 685, 1, Interpolation.pow2Out),
+                new RunnableAction() {
+                    @Override
+                    public void run() {
+                        bonus.remove();
+                    }
+                })
+        );
+        getStage().addActor(bonus);
 
         getStage().addHpUpdater(new HpUpdater(getHpRegen() / 2 / 0.4f, 0.4f));
     }
@@ -131,18 +140,6 @@ public class BumperActor extends EcgActor {
         }
         else {
             batch.draw(inactiveAnimator.getKeyFrame(), 0, drawY);
-        }
-
-        Iterator<Vector2> bonusIt = bonusStars.iterator();
-        while(bonusIt.hasNext()) {
-            Vector2 bonusPos = bonusIt.next();
-            float x = scrolledX(bonusPos.x);
-            float w = bonusTexture.getWidth();
-            float h = bonusTexture.getHeight();
-            batch.draw(bonusTexture, x-w/2-4, getY()-w/2);
-
-            if(x+w < 0)
-                bonusIt.remove();
         }
     }
 
