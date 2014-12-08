@@ -4,6 +4,8 @@ import cc.raintomorrow.BlockerActor;
 import cc.raintomorrow.BullyActor;
 import cc.raintomorrow.Ecg;
 import cc.raintomorrow.EcgStage;
+import cc.raintomorrow.cutscene.Cutscene;
+import cc.raintomorrow.cutscene.TextCutscene;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -23,6 +25,11 @@ public class MarriagePhase extends Phase {
 
     public MarriagePhase(EcgStage stage) {
         super(stage);
+
+        cutscenes = new Cutscene[] {
+                new TextCutscene("\"But I know.\""),
+                new TextCutscene("\"As long as we're together...\"")
+        };
 
         this.hpRegen = 60;
         this.hpConsumption = 25;

@@ -4,6 +4,8 @@ import cc.raintomorrow.BlockerActor;
 import cc.raintomorrow.BullyActor;
 import cc.raintomorrow.Ecg;
 import cc.raintomorrow.EcgStage;
+import cc.raintomorrow.cutscene.Cutscene;
+import cc.raintomorrow.cutscene.TextCutscene;
 import cc.raintomorrow.graphics.Direction;
 
 public class BullyingPhase extends Phase {
@@ -17,6 +19,11 @@ public class BullyingPhase extends Phase {
         bully1 = new BullyActor(50, 0, 1);
         bully2 = new BullyActor(50, 0.5f, 1.5f);
         bully3 = new BullyActor(50, 1, 2);
+
+        cutscenes = new Cutscene[] {
+                new TextCutscene("\"And lots of people...\""),
+                new TextCutscene("\"lying to and slandering me.\"")
+        };
 
         GeneratingLine topOut = new GeneratingLine(stage);
         topOut.setInterval(1f, 24);

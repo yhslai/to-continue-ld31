@@ -4,6 +4,8 @@ import cc.raintomorrow.BlockerActor;
 import cc.raintomorrow.BullyActor;
 import cc.raintomorrow.Ecg;
 import cc.raintomorrow.EcgStage;
+import cc.raintomorrow.cutscene.Cutscene;
+import cc.raintomorrow.cutscene.TextCutscene;
 import com.badlogic.gdx.math.Vector2;
 
 public class FirstLovePhase extends Phase {
@@ -12,11 +14,17 @@ public class FirstLovePhase extends Phase {
     public FirstLovePhase(EcgStage stage) {
         super(stage);
 
+        cutscenes = new Cutscene[] {
+                new TextCutscene("\"Then I met her.\""),
+                new TextCutscene("\"She always trusted me.\nNo matter what others said.\"")
+        };
+        this.hpConsumption = 60;
+
         this.line = new GeneratingLine(stage);
         line.setInterval(0.5f, 1.5f);
         line.setY(180, 540);
         line.setBlockerSize(40, 40, 10, 10);
-        line.setBaseDamage(100);
+        line.setBaseDamage(80);
         line.setBaseHeal(100);
         line.setHealProb(0.25f);
     }

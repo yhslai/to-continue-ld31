@@ -45,7 +45,7 @@ public class WaveActor extends EcgActor {
         this.neonTexturer = new NeonTexturer(stageWidth, stageHeight);
         this.neonTexturer.setParameters(centerWidth, centerColor, neonWidth, neonColor);
         this.partnerNeonTexturer = new NeonTexturer(stageWidth, stageHeight);
-        this.partnerNeonTexturer.setParameters(centerWidth-1, centerColor, neonWidth/2, ColorUtils.rgba256(255, 49, 230, 250));
+        this.partnerNeonTexturer.setParameters(centerWidth, ColorUtils.rgba256(255, 255, 255, 220), neonWidth/2, ColorUtils.rgba256(255, 49, 230, 250));
     }
 
     @Override
@@ -145,7 +145,7 @@ public class WaveActor extends EcgActor {
 
     public boolean isColliding(Rectangle rect, boolean ignorePartner) {
         return isCollidingImpl(position, lastPosition, rect) ||
-                (!ignorePartner && isCollidingImpl(mirrorPoint(position), mirrorPoint(lastPosition), rect));
+                (!ignorePartner && hasPartner && isCollidingImpl(mirrorPoint(position), mirrorPoint(lastPosition), rect));
     }
 
     @SuppressWarnings("SuspiciousNameCombination")

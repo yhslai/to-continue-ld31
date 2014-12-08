@@ -4,12 +4,14 @@ import cc.raintomorrow.Ecg;
 import cc.raintomorrow.EcgStage;
 import cc.raintomorrow.Sounds;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class TextCutscene extends Cutscene {
     private boolean ended;
     private String mainText;
+    private Color color;
     private String subText;
     private float charPerSec;
     private float stateTime;
@@ -18,14 +20,19 @@ public class TextCutscene extends Cutscene {
     private BitmapFont mainFont;
     private BitmapFont subFont;
 
-    public TextCutscene(String mainText) {
+    public TextCutscene(String mainText, Color color) {
         this.mainText = mainText;
         this.charPerSec = Math.min(10, mainText.length()/1f);
-        this.mainFont = Ecg.app.getAsset("font/believer.ttf.48");
+        this.mainFont = Ecg.app.getAsset("font/believer.ttf.42");
+        this.mainFont.setColor(color);
+    }
+
+    public TextCutscene(String mainText) {
+        this(mainText, Color.WHITE);
     }
 
     public TextCutscene(String mainText, String subText) {
-        this(mainText);
+        this(mainText, Color.WHITE);
         this.subText = subText;
         this.subFont = Ecg.app.getAsset("font/believer.ttf.32");
     }
@@ -74,6 +81,7 @@ public class TextCutscene extends Cutscene {
         float oneCharDuration = 1 / charPerSec;
         for(int i = 0; i < mainText.length(); i++) {
             if(mainText.charAt(i) == ".".charAt(0)) duration -= oneCharDuration * 3;
+            else if(mainText.charAt(i) == "\"".charAt(0)) duration += 0;
             else if(mainText.charAt(i) == "\n".charAt(0)) duration -= oneCharDuration * 5;
             else duration -= oneCharDuration;
             if(duration <= 0)
@@ -91,6 +99,7 @@ public class TextCutscene extends Cutscene {
         float oneCharDuration = 1 / charPerSec;
         for(int i = 0; i < mainText.length(); i++) {
             if(mainText.charAt(i) == ".".charAt(0)) duration += oneCharDuration * 3;
+            else if(mainText.charAt(i) == "\"".charAt(0)) duration += 0;
             else if(mainText.charAt(i) == "\n".charAt(0)) duration += oneCharDuration * 5;
             else duration += oneCharDuration;
         }

@@ -3,12 +3,21 @@ package cc.raintomorrow.phase;
 import cc.raintomorrow.BlockerActor;
 import cc.raintomorrow.Ecg;
 import cc.raintomorrow.EcgStage;
+import cc.raintomorrow.cutscene.Cutscene;
+import cc.raintomorrow.cutscene.TextCutscene;
 
 public class SchoolPhase extends Phase {
     GeneratingLine [] generatingLines;
 
     public SchoolPhase(EcgStage stage) {
         super(stage);
+
+        cutscenes = new Cutscene[] {
+                new TextCutscene("We've done our best.\nNow it's up to himself."),
+                new TextCutscene("\"......\""),
+                new TextCutscene("\"It's like yesterday.\""),
+                new TextCutscene("\"The day I left school.\nEverything went well.\""),
+        };
 
         GeneratingLine topOut = new GeneratingLine(stage);
         topOut.setInterval(2f, 4f);

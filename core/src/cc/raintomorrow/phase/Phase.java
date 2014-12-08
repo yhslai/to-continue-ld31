@@ -2,6 +2,7 @@ package cc.raintomorrow.phase;
 
 import cc.raintomorrow.Ecg;
 import cc.raintomorrow.EcgStage;
+import cc.raintomorrow.cutscene.Cutscene;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
@@ -13,6 +14,8 @@ public abstract class Phase {
     protected float hpRegen = 100;
     protected float hpConsumption = EcgStage.DEFAULT_HP_CONSUMPTION;
     protected float bumperRange = EcgStage.DEFAULT_BUMPER_RANGE;
+
+    public Cutscene [] cutscenes;
 
     protected Phase(EcgStage stage) {
         this.stage = stage;

@@ -3,6 +3,8 @@ package cc.raintomorrow.phase;
 import cc.raintomorrow.BlockerActor;
 import cc.raintomorrow.Ecg;
 import cc.raintomorrow.EcgStage;
+import cc.raintomorrow.cutscene.Cutscene;
+import cc.raintomorrow.cutscene.TextCutscene;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -12,6 +14,11 @@ public class ExamPhase extends Phase {
 
     public ExamPhase(EcgStage stage) {
         super(stage);
+
+        cutscenes = new Cutscene[] {
+                new TextCutscene("\"Until I got a job.\""),
+                new TextCutscene("\"There were many stuffs\nschools didn't teach me.\""),
+        };
     }
 
     @Override

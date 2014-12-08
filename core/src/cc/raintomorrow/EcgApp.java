@@ -55,8 +55,8 @@ public class EcgApp extends ApplicationAdapter {
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter fontParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         fontParams.fontFileName = "font/believer.ttf";
-        fontParams.fontParameters.size = 48;
-        manager.load("font/believer.ttf.48", BitmapFont.class, fontParams);
+        fontParams.fontParameters.size = 42;
+        manager.load("font/believer.ttf.42", BitmapFont.class, fontParams);
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter fontParams2 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         fontParams2.fontFileName = "font/believer.ttf";
@@ -85,7 +85,7 @@ public class EcgApp extends ApplicationAdapter {
 	public void render () {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(deltaTime);
