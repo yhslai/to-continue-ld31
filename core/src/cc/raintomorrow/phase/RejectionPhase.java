@@ -20,7 +20,7 @@ public class RejectionPhase extends Phase {
                 new TextCutscene("\"I could see a solid barrier\nstanding between us.\"")
         };
 
-        this.gate = new GeneratingGate(stage, 1.25f, 50, 20);
+        this.gate = new GeneratingGate(stage, 1.5f, 50, 20);
     }
 
     @Override
