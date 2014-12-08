@@ -68,6 +68,7 @@ public class BullyActor extends EcgActor {
                     30, 10);
             bullet.setSpeed(new Vector2(-100, 0));
             getStage().addActor(bullet);
+            Sounds.shoot.play();
 
             leftBullets--;
             firingTime = 0.1f;

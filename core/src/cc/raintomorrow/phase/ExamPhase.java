@@ -15,6 +15,8 @@ public class ExamPhase extends Phase {
     public ExamPhase(EcgStage stage) {
         super(stage);
 
+        this.initHp = 450;
+
         cutscenes = new Cutscene[] {
                 new TextCutscene("\"Until I got a job.\""),
                 new TextCutscene("\"There were many stuffs\nschools didn't teach me.\""),

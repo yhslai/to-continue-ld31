@@ -130,9 +130,9 @@ public class EcgStage extends Stage {
         this.cutsceneManager = new CutsceneManager(this);
 
         this.phases = new Phase[] {
+                new BullyingPhase(this),
                 new SchoolPhase(this),
                 new ExamPhase(this),
-                new BullyingPhase(this),
                 new FirstLovePhase(this),
                 new RejectionPhase(this),
                 new MarriagePhase(this),
